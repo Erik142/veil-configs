@@ -31,9 +31,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
-          tags:
-            - latest
-            - type=sha
+          tags: |
+            latest
+            type=sha
 
       - name: Build and push Docker image
         uses: docker/build-and-push-action@v5
