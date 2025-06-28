@@ -1,10 +1,11 @@
-package main
+package app
 
 import (
 	"context"
 	"net"
 	"testing"
 
+	internal_server "github.com/Erik142/veil-configs/internal/server"
 	"github.com/Erik142/veil-configs/pkg/config"
 	pb "github.com/Erik142/veil-configs/pkg/proto"
 	"github.com/sirupsen/logrus"
@@ -22,7 +23,7 @@ func init() {
 	lis = bufconn.Listen(bufSize)
 	go func() {
 		s := grpc.NewServer()
-		pb.RegisterNebulaConfigServiceServer(s, &server{configStore: config.NewInMemoryConfigStore()})
+		pb.RegisterNebulaConfigServiceServer(s, &internal_server.GrpcServer{ConfigStore: config.NewInMemoryConfigStore()})
 		if err := s.Serve(lis); err != nil && err != grpc.ErrServerStopped {
 			logrus.Fatalf("Server exited with error: %v", err)
 		}
