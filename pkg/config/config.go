@@ -98,6 +98,26 @@ func NewInMemoryConfigStore() *InMemoryConfigStore {
 					LogFile: "/var/log/nebula.log",
 				},
 			},
+			"test-client": NebulaConfig{
+				PKI: PKI{
+					CA:   "-----BEGIN NEBULA CA CERT-----\ntest_client_ca_cert_content\n-----END NEBULA CA CERT-----",
+					Cert: "-----BEGIN NEBULA CERT-----\ntest_client_cert_content\n-----END NEBULA CERT-----",
+					Key:  "-----BEGIN NEBULA KEY-----\ntest_client_key_content\n-----END NEBULA KEY-----",
+				},
+				Firewall: Firewall{
+					Inbound: []Inbound{
+						{Port: "any", Proto: "any", Host: "any"},
+					},
+				},
+				Tun: Tun{
+					Dev:                "nebula_test",
+					DropLocalBroadcast: true,
+				},
+				Logging: Logging{
+					Level:   "debug",
+					LogFile: "/var/log/nebula_test.log",
+				},
+			},
 		},
 	}
 }
