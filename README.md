@@ -94,33 +94,38 @@ client:
 
 ```
 .
+├── .git/                   # Git version control
+├── .github/                # GitHub Actions workflows
+│   └── workflows/
+│       └── ci.yml
+├── .gitignore              # Specifies intentionally untracked files to ignore
+├── go.mod                  # Go module dependencies
+├── go.sum                  # Checksums for Go module dependencies
+├── nebula_config_client1.yaml # Example Nebula client configuration
+├── README.md               # Project README file
+├── renovate.json           # Renovate bot configuration
 ├── cmd/
 │   ├── client/             # Client application entry point and Cobra commands
-│   │   └── app/            # Client Cobra application logic
-│   │       └── app.go
+│   │   ├── app/            # Client Cobra application logic
+│   │   │   ├── app_test.go
+│   │   │   └── app.go
 │   │   └── main.go         # Client main entry point
 │   └── server/             # Server application entry point and Cobra commands
-│       └── app/            # Server Cobra application logic
-│           └── app.go
+│       ├── app/            # Server Cobra application logic
+│       │   ├── app_test.go
+│       │   └── app.go
 │       └── main.go         # Server main entry point
 ├── internal/
 │   ├── client/             # Internal client logic (gRPC communication, file saving)
 │   │   └── client.go
 │   └── server/             # Internal server logic (gRPC server implementation)
 │       └── server.go
-├── pkg/
-│   ├── config/             # Nebula configuration structs and in-memory store
-│   │   ├── config.go
-│   │   └── config_test.go
-│   └── proto/              # Generated Protocol Buffer files
-│       ├── nebula_config_grpc.pb.go
-│       └── nebula_config.pb.go
-├── proto/                  # Protocol Buffer definitions
-│   └── nebula_config.proto
-├── .gitignore
-├── go.mod
-├── go.sum
-└── README.md
+└── pkg/
+    ├── config/             # Nebula configuration structs and in-memory store
+    │   ├── config_test.go
+    │   └── config.go
+    └── proto/              # Protocol Buffer definitions
+        └── nebula_config.proto
 ```
 
 ## 🤝 Contributing
