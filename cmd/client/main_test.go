@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"io/ioutil"
-	"log"
 	"net"
 	"os"
 	"testing"
 
 	pb "github.com/Erik142/veil-configs/pkg/proto"
+	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -45,7 +45,7 @@ func TestFetchAndSaveConfig(t *testing.T) {
 	pb.RegisterNebulaConfigServiceServer(s, mockServer)
 	go func() {
 		if err := s.Serve(lis); err != nil && err != grpc.ErrServerStopped {
-			log.Fatalf("Mock server exited with error: %v", err)
+			logrus.Fatalf("Mock server exited with error: %v", err)
 		}
 	}()
 	defer s.Stop()

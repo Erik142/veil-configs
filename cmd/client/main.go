@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"time"
 
 	pb "github.com/Erik142/veil-configs/pkg/proto"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -22,20 +22,20 @@ func FetchAndSaveConfig(conn grpc.ClientConnInterface, clientID, fileName string
 	if err != nil {
 		return fmt.Errorf("could not get nebula config: %v", err)
 	}
-	log.Printf("Received Nebula Config for client %s", clientID)
+	logrus.Printf("Received Nebula Config for client %s", clientID)
 
 	err = os.WriteFile(fileName, []byte(r.GetConfigContent()), 0644)
 	if err != nil {
 		return fmt.Errorf("failed to save config to file: %v", err)
 	}
-	log.Printf("Nebula configuration saved to %s", fileName)
+	logrus.Printf("Nebula configuration saved to %s", fileName)
 	return nil
 }
 
 func main() {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		logrus.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 
@@ -43,6 +43,6 @@ func main() {
 	fileName := fmt.Sprintf("nebula_config_%s.yaml", clientID)
 
 	if err := FetchAndSaveConfig(conn, clientID, fileName); err != nil {
-		log.Fatalf("failed to fetch and save config: %v", err)
+		logrus.Fatalf("failed to fetch and save config: %v", err)
 	}
 }
