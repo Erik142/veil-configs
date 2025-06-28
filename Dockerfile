@@ -1,17 +1,20 @@
+FROM rvolosatovs/protoc:5 AS protoc
+WORKDIR /app
+# Copy source code
+COPY . .
+RUN protoc --go_out=. --go_opt=paths=source_relative \
+  --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+  ./pkg/proto/nebula_config.proto
 # Use a Go image to build the application
 FROM golang:1.24.3 AS builder
 
 WORKDIR /app
 
 # Copy go.mod and go.sum to leverage Docker's build cache
-COPY go.mod .
-COPY go.sum .
+COPY --from=protoc /app /app
 
 # Download dependencies
 RUN go mod download
-
-# Copy the rest of the source code
-COPY . .
 
 # Build the server executable
 RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/server
