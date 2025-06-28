@@ -125,6 +125,7 @@ client:
     │   ├── config_test.go
     │   └── config.go
     └── proto/              # Protocol Buffer definitions
+        ├── dummy.go                # Dummy file to ensure directory is recognized
         └── nebula_config.proto
 ```
 
