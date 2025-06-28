@@ -36,3 +36,5 @@ cmd/client/client
 cmd/server/server
 pkg/proto/nebula_config_grpc.pb.go
 pkg/proto/nebula_config.pb.go
+
+*.yaml
