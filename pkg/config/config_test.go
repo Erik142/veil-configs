@@ -10,7 +10,7 @@ func TestNewInMemoryConfigStore(t *testing.T) {
 	store := NewInMemoryConfigStore()
 	assert.NotNil(t, store)
 	assert.NotNil(t, store.configs)
-	assert.Equal(t, 2, len(store.configs))
+	assert.Equal(t, 3, len(store.configs))
 }
 
 func TestInMemoryConfigStore_GetConfig(t *testing.T) {
@@ -59,4 +59,42 @@ logging:
 	config, err = store.GetConfig("client1")
 	assert.NoError(t, err)
 	assert.Equal(t, expectedYAML, config)
+
+	// Test existing test-client ID
+	config, err = store.GetConfig("test-client")
+	assert.NoError(t, err)
+	assert.Contains(t, config, "test_client_ca_cert_content")
+	assert.Contains(t, config, "test_client_cert_content")
+	assert.Contains(t, config, "test_client_key_content")
+	assert.Contains(t, config, "dev: nebula_test")
+
+	// Test YAML marshalling for test-client
+	expectedTestClientYAML := `pki:
+  ca: |-
+    -----BEGIN NEBULA CA CERT-----
+    test_client_ca_cert_content
+    -----END NEBULA CA CERT-----
+  cert: |-
+    -----BEGIN NEBULA CERT-----
+    test_client_cert_content
+    -----END NEBULA CERT-----
+  key: |-
+    -----BEGIN NEBULA KEY-----
+    test_client_key_content
+    -----END NEBULA KEY-----
+firewall:
+  inbound:
+  - port: any
+    proto: any
+    host: any
+tun:
+  dev: nebula_test
+  drop_local_broadcast: true
+logging:
+  level: debug
+  log_file: /var/log/nebula_test.log
+`
+	config, err = store.GetConfig("test-client")
+	assert.NoError(t, err)
+	assert.Equal(t, expectedTestClientYAML, config)
 }
