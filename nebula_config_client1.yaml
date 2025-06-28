@@ -1,0 +1,9 @@
+ca:
+  cert: |
+    -----BEGIN CERTIFICATE-----
+    client1_cert_content
+    -----END CERTIFICATE-----
+  key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    client1_key_content
+    -----END RSA PRIVATE KEY-----

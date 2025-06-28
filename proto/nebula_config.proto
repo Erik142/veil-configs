@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/Erik142/veil-configs/pkg/proto";
+
+service NebulaConfigService {
+  rpc GetNebulaConfig(GetNebulaConfigRequest) returns (GetNebulaConfigResponse) {}
+}
+
+message GetNebulaConfigRequest {
+  string client_id = 1;
+}
+
+message GetNebulaConfigResponse {
+  string config_content = 1;
+}
